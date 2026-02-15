@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMOps Comprehensive Ecosystem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0047FF;
+            --secondary: #00D9FF;
+            --accent: #FF3D71;
+            --dark: #0A0E27;
+            --light: #F5F7FF;
+            --gray: #8B92B8;
+            --border: #E0E4FF;
+            --shadow: rgba(0, 71, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            background: linear-gradient(135deg, #0A0E27 0%, #1a1f3a 100%);
+            color: var(--light);
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 71, 255, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--secondary), var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--gray);
+            font-weight: 400;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 60px;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab {
+            padding: 16px 36px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: var(--gray);
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+
+        .tab:hover {
+            border-color: var(--primary);
+            color: var(--light);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 71, 255, 0.4);
+        }
+
+        /* Section Containers */
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Workflow Section */
+        .workflow-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .workflow-stages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .stage-card {
+            background: linear-gradient(135deg, rgba(0, 71, 255, 0.1), rgba(0, 217, 255, 0.05));
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+            border-color: var(--secondary);
+        }
+
+        .stage-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stage-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 71, 255, 0.4);
+        }
+
+        .stage-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .stage-description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .stage-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stage-item {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .stage-item:hover {
+            background: rgba(0, 217, 255, 0.2);
+            border-color: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        /* Landscape Grid */
+        .landscape-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, rgba(255, 61, 113, 0.1), rgba(0, 71, 255, 0.05));
+            border: 2px solid rgba(255, 61, 113, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(255, 61, 113, 0.3);
+            border-color: var(--accent);
+        }
+
+        .category-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .vendor-item {
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vendor-item:hover {
+            background: rgba(255, 61, 113, 0.2);
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Enterprise Flow */
+        .enterprise-flow {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, rgba(0, 71, 255, 0.15), rgba(0, 217, 255, 0.1));
+            border: 2px solid rgba(0, 217, 255, 0.4);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .flow-step:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.4);
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: var(--secondary);
+        }
+
+        .flow-step:last-child::after {
+            content: '';
+        }
+
+        .flow-step-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--secondary);
+        }
+
+        .flow-step-desc {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Considerations Grid */
+        .considerations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .consideration-card {
+            background: linear-gradient(135deg, rgba(255, 61, 113, 0.1), rgba(0, 71, 255, 0.1));
+            border: 2px solid rgba(255, 61, 113, 0.3);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .consideration-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(255, 61, 113, 0.3);
+        }
+
+        .consideration-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .consideration-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        .consideration-desc {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 100px;
+            padding: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .considerations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 48px; }
+            .tabs { flex-direction: column; }
+            .workflow-stages { grid-template-columns: 1fr; }
+            .landscape-grid { grid-template-columns: 1fr; }
+            .considerations-grid { grid-template-columns: 1fr; }
+            .flow-steps { flex-direction: column; }
+            .flow-step::after { content: '↓'; right: 50%; bottom: -30px; top: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LLMOps Comprehensive Ecosystem</h1>
+            <p class="subtitle">Complete guide to operationalizing Large Language Models at scale</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showSection('workflow')">Workflow & Pipeline</button>
+            <button class="tab" onclick="showSection('landscape')">Tool Landscape</button>
+            <button class="tab" onclick="showSection('enterprise')">Enterprise Architecture</button>
+        </div>
+
+        <!-- Workflow Section -->
+        <div id="workflow" class="section active">
+            <div class="workflow-container">
+                <h2 style="font-size: 42px; margin-bottom: 20px; color: var(--secondary);">LLMOps Workflow Pipeline</h2>
+                <p style="font-size: 18px; color: var(--gray); margin-bottom: 50px;">End-to-end process for adapting pre-trained LLMs to downstream tasks</p>
+                
+                <div class="workflow-stages">
+                    <div class="stage-card">
+                        <div class="stage-number">1</div>
+                        <div class="stage-title">LLM Selection</div>
+                        <div class="stage-description">Choose foundation model based on use case requirements, performance metrics, and cost considerations</div>
+                        <div class="stage-items">
+                            <span class="stage-item">GPT-4</span>
+                            <span class="stage-item">Claude</span>
+                            <span class="stage-item">Llama</span>
+                            <span class="stage-item">Gemini</span>
+                            <span class="stage-item">Mixtral</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">2</div>
+                        <div class="stage-title">Data Integration & Privacy</div>
+                        <div class="stage-description">Integrate domain-specific data with privacy measures and quality controls</div>
+                        <div class="stage-items">
+                            <span class="stage-item">TOxIC</span>
+                            <span class="stage-item">LangKit</span>
+                            <span class="stage-item">Gretel</span>
+                            <span class="stage-item">Mostly AI</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">3</div>
+                        <div class="stage-title">Fine-Tuning</div>
+                        <div class="stage-description">Adapt model to specific tasks through parameter-efficient tuning methods</div>
+                        <div class="stage-items">
+                            <span class="stage-item">LoRA</span>
+                            <span class="stage-item">QLoRA</span>
+                            <span class="stage-item">Activeloop</span>
+                            <span class="stage-item">Snorkel</span>
+                            <span class="stage-item">Scale AI</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">4</div>
+                        <div class="stage-title">Embeddings & Context</div>
+                        <div class="stage-description">Generate and store embeddings for semantic search and retrieval</div>
+                        <div class="stage-items">
+                            <span class="stage-item">Chroma</span>
+                            <span class="stage-item">Pinecone</span>
+                            <span class="stage-item">Weaviate</span>
+                            <span class="stage-item">Milvus</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">5</div>
+                        <div class="stage-title">RLHF & Alignment</div>
+                        <div class="stage-description">Align model outputs with human preferences through reinforcement learning</div>
+                        <div class="stage-items">
+                            <span class="stage-item">OpenAI</span>
+                            <span class="stage-item">Argilla</span>
+                            <span class="stage-item">Surge</span>
+                            <span class="stage-item">Scale AI</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">6</div>
+                        <div class="stage-title">Prompt Engineering</div>
+                        <div class="stage-description">Design and optimize prompts for consistent, high-quality outputs</div>
+                        <div class="stage-items">
+                            <span class="stage-item">Humanloop</span>
+                            <span class="stage-item">PromptLayer</span>
+                            <span class="stage-item">Helicone</span>
+                            <span class="stage-item">Vellum</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">7</div>
+                        <div class="stage-title">Context Management</div>
+                        <div class="stage-description">Manage conversation context and memory for coherent interactions</div>
+                        <div class="stage-items">
+                            <span class="stage-item">LangChain</span>
+                            <span class="stage-item">LlamaIndex</span>
+                            <span class="stage-item">GODLY</span>
+                            <span class="stage-item">Mem0</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">8</div>
+                        <div class="stage-title">Model Deployment</div>
+                        <div class="stage-description">Deploy models to production with scaling and reliability</div>
+                        <div class="stage-items">
+                            <span class="stage-item">Modal</span>
+                            <span class="stage-item">BANANA</span>
+                            <span class="stage-item">Replicate</span>
+                            <span class="stage-item">Together</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">9</div>
+                        <div class="stage-title">Performance Monitoring</div>
+                        <div class="stage-description">Track model performance, costs, and quality metrics</div>
+                        <div class="stage-items">
+                            <span class="stage-item">Arize</span>
+                            <span class="stage-item">WhyLabs</span>
+                            <span class="stage-item">Fiddler</span>
+                            <span class="stage-item">Arthur</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">10</div>
+                        <div class="stage-title">Model Governance</div>
+                        <div class="stage-description">Ensure compliance, ethics, and responsible AI practices</div>
+                        <div class="stage-items">
+                            <span class="stage-item">Credo AI</span>
+                            <span class="stage-item">Dynamo AI</span>
+                            <span class="stage-item">Protect AI</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">11</div>
+                        <div class="stage-title">Model Security</div>
+                        <div class="stage-description">Protect against adversarial attacks and ensure data security</div>
+                        <div class="stage-items">
+                            <span class="stage-item">CalypsoAI</span>
+                            <span class="stage-item">Robust Intelligence</span>
+                            <span class="stage-item">HiddenLayer</span>
+                        </div>
+                    </div>
+
+                    <div class="stage-card">
+                        <div class="stage-number">12</div>
+                        <div class="stage-title">Optimization & Acceleration</div>
+                        <div class="stage-description">Optimize model inference for speed and cost efficiency</div>
+                        <div class="stage-items">
+                            <span class="stage-item">TensorRT</span>
+                            <span class="stage-item">ONNX</span>
+                            <span class="stage-item">vLLM</span>
+                            <span class="stage-item">Cerebras</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 60px; padding: 40px; background: rgba(0, 217, 255, 0.05); border-radius: 20px; border: 1px solid rgba(0, 217, 255, 0.2);">
+                    <h3 style="font-size: 28px; color: var(--secondary); margin-bottom: 20px;">🎯 Key Optimization Areas</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                        <div>
+                            <strong style="color: var(--accent);">Model Architecture:</strong>
+                            <p style="color: var(--gray); margin-top: 8px; font-size: 14px;">Multi-model integration, caching, compression</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--accent);">Compute Optimization:</strong>
+                            <p style="color: var(--gray); margin-top: 8px; font-size: 14px;">GPU acceleration, batch processing, routing</p>
+                        </div>
+                        <div>
+                            <strong style="color: var(--accent);">Quality Control:</strong>
+                            <p style="color: var(--gray); margin-top: 8px; font-size: 14px;">Output validation, bias detection, testing</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Landscape Section -->
+        <div id="landscape" class="section">
+            <h2 style="font-size: 42px; margin-bottom: 50px; text-align: center; color: var(--accent);">LLMOps Tool Landscape</h2>
+            
+            <div class="landscape-grid">
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🔧</div>
+                        Integration Frameworks
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">DUST</div>
+                        <div class="vendor-item">LangChain</div>
+                        <div class="vendor-item">LlamaIndex</div>
+                        <div class="vendor-item">Semantic Kernel</div>
+                        <div class="vendor-item">Haystack</div>
+                        <div class="vendor-item">Flowise</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🗄️</div>
+                        Vector Databases
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">Pinecone</div>
+                        <div class="vendor-item">Weaviate</div>
+                        <div class="vendor-item">Chroma</div>
+                        <div class="vendor-item">Qdrant</div>
+                        <div class="vendor-item">Milvus</div>
+                        <div class="vendor-item">pgvector</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">⚡</div>
+                        LLM Testing & Scaling
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">Beacuten</div>
+                        <div class="vendor-item">Predibase</div>
+                        <div class="vendor-item">Anyscale</div>
+                        <div class="vendor-item">Modal</div>
+                        <div class="vendor-item">BANANA</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🎯</div>
+                        RLHF Services
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">OpenPipe</div>
+                        <div class="vendor-item">Prolific</div>
+                        <div class="vendor-item">Scale AI</div>
+                        <div class="vendor-item">Surge</div>
+                        <div class="vendor-item">Argilla</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🔍</div>
+                        Fine-Tuning Tools
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">Argilla</div>
+                        <div class="vendor-item">DeepSpeed</div>
+                        <div class="vendor-item">OctoML</div>
+                        <div class="vendor-item">PromptLayer</div>
+                        <div class="vendor-item">Together.ai</div>
+                        <div class="vendor-item">Predibase</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">📊</div>
+                        Monitoring & Observability
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">Arize</div>
+                        <div class="vendor-item">Fiddler</div>
+                        <div class="vendor-item">Gantry</div>
+                        <div class="vendor-item">Helicone</div>
+                        <div class="vendor-item">WhyLabs</div>
+                        <div class="vendor-item">Arthur</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🛠️</div>
+                        MLOps Platforms
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">Weights & Biases</div>
+                        <div class="vendor-item">Comet</div>
+                        <div class="vendor-item">MLflow</div>
+                        <div class="vendor-item">Kubeflow</div>
+                        <div class="vendor-item">Vertex AI</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">☁️</div>
+                        Cloud Platforms
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">AWS</div>
+                        <div class="vendor-item">Azure</div>
+                        <div class="vendor-item">GCP</div>
+                        <div class="vendor-item">Databricks</div>
+                        <div class="vendor-item">Snowflake</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">💻</div>
+                        Hardware & Accelerators
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">NVIDIA</div>
+                        <div class="vendor-item">Cerebras</div>
+                        <div class="vendor-item">Graphcore</div>
+                        <div class="vendor-item">SambaNova</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🤖</div>
+                        Foundation Model Providers
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">OpenAI</div>
+                        <div class="vendor-item">Anthropic</div>
+                        <div class="vendor-item">Cohere</div>
+                        <div class="vendor-item">AI21 Labs</div>
+                        <div class="vendor-item">Hugging Face</div>
+                        <div class="vendor-item">Replicate</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🚀</div>
+                        Deployment & Inference
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">RunPod</div>
+                        <div class="vendor-item">Modal</div>
+                        <div class="vendor-item">BANANA</div>
+                        <div class="vendor-item">Beam</div>
+                        <div class="vendor-item">Outerbounds</div>
+                        <div class="vendor-item">Cerebrium</div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-title">
+                        <div class="category-icon">🔐</div>
+                        Security & Governance
+                    </div>
+                    <div class="vendor-grid">
+                        <div class="vendor-item">Credo AI</div>
+                        <div class="vendor-item">Robust Intelligence</div>
+                        <div class="vendor-item">HiddenLayer</div>
+                        <div class="vendor-item">CalypsoAI</div>
+                        <div class="vendor-item">Protect AI</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px; padding: 50px; background: rgba(255, 61, 113, 0.05); border-radius: 20px; border: 1px solid rgba(255, 61, 113, 0.2);">
+                <h3 style="font-size: 32px; color: var(--accent); margin-bottom: 30px; text-align: center;">🎨 Prompt Engineering Complexity Spectrum</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 40px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px; text-align: center;">
+                        <div style="font-size: 18px; font-weight: 700; color: var(--secondary); margin-bottom: 10px;">No-Code</div>
+                        <p style="font-size: 13px; color: var(--gray);">PromptChainer, Voiceflow, Relevance AI</p>
+                    </div>
+                    <div style="font-size: 30px; color: var(--secondary);">→</div>
+                    <div style="flex: 1; min-width: 200px; text-align: center;">
+                        <div style="font-size: 18px; font-weight: 700; color: var(--secondary); margin-bottom: 10px;">Low-Code</div>
+                        <p style="font-size: 13px; color: var(--gray);">DUST, Humanloop, Vellum</p>
+                    </div>
+                    <div style="font-size: 30px; color: var(--secondary);">→</div>
+                    <div style="flex: 1; min-width: 200px; text-align: center;">
+                        <div style="font-size: 18px; font-weight: 700; color: var(--secondary); margin-bottom: 10px;">Pro-Code</div>
+                        <p style="font-size: 13px; color: var(--gray);">LangChain, Haystack, FIXIE, Vercel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enterprise Section -->
+        <div id="enterprise" class="section">
+            <div class="enterprise-flow">
+                <h2 style="font-size: 42px; margin-bottom: 30px; color: var(--primary);">Enterprise LLMOps Architecture</h2>
+                <p style="font-size: 18px; color: var(--gray); margin-bottom: 50px;">Production-grade workflow for enterprise AI deployment</p>
+                
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-step-title">Adapting Pre-trained LLM</div>
+                        <div class="flow-step-desc">Start with foundation model and integrate domain-specific data through embeddings and fine-tuning</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">End User Management</div>
+                        <div class="flow-step-desc">Prompt engineering enables context management for effective and accessible interactions</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">Model Deployment</div>
+                        <div class="flow-step-desc">Deploy to production with performance monitoring and security controls</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-step-title">Continuous Optimization</div>
+                        <div class="flow-step-desc">Monitor performance, govern models, ensure security and compliance</div>
+                    </div>
+                </div>
+
+                <div class="considerations-grid">
+                    <div class="consideration-card">
+                        <div class="consideration-icon">📈</div>
+                        <div class="consideration-title">Model Performance</div>
+                        <div class="consideration-desc">Track standardized metrics specific to each LLM use case. Enable clear audits of model outputs and biggest challenges of generative AI</div>
+                    </div>
+
+                    <div class="consideration-card">
+                        <div class="consideration-icon">🛡️</div>
+                        <div class="consideration-title">Model Governance</div>
+                        <div class="consideration-desc">Protect security of data and models. Implement compliance frameworks and ethical AI practices</div>
+                    </div>
+
+                    <div class="consideration-card">
+                        <div class="consideration-icon">🔒</div>
+                        <div class="consideration-title">Model Security</div>
+                        <div class="consideration-desc">Guard against adversarial attacks, data poisoning, and model extraction threats</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 60px; padding: 50px; background: rgba(0, 71, 255, 0.05); border-radius: 20px; border: 1px solid rgba(0, 71, 255, 0.2);">
+                    <h3 style="font-size: 28px; color: var(--primary); margin-bottom: 30px;">🏗️ Infrastructure Components</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                        <div>
+                            <h4 style="color: var(--secondary); font-size: 18px; margin-bottom: 15px;">Development Frameworks</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span class="stage-item">PyTorch</span>
+                                <span class="stage-item">Keras</span>
+                                <span class="stage-item">Cerebras</span>
+                                <span class="stage-item">Semantic Kernel</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="color: var(--secondary); font-size: 18px; margin-bottom: 15px;">Deployment Solutions</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span class="stage-item">deepinfra</span>
+                                <span class="stage-item">BANANA</span>
+                                <span class="stage-item">inferless</span>
+                                <span class="stage-item">truefoundry</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="color: var(--secondary); font-size: 18px; margin-bottom: 15px;">Inference Platforms</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span class="stage-item">Hugging Face</span>
+                                <span class="stage-item">RAY</span>
+                                <span class="stage-item">OctoML</span>
+                                <span class="stage-item">Nebuly</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="color: var(--secondary); font-size: 18px; margin-bottom: 15px;">Application Frameworks</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span class="stage-item">Streamlit</span>
+                                <span class="stage-item">Gradio</span>
+                                <span class="stage-item">FastAPI</span>
+                                <span class="stage-item">Flask</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="color: var(--secondary); font-size: 18px; margin-bottom: 15px;">Monitoring Solutions</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span class="stage-item">Arthur</span>
+                                <span class="stage-item">Arize</span>
+                                <span class="stage-item">WhyLabs</span>
+                                <span class="stage-item">Fiddler</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="color: var(--secondary); font-size: 18px; margin-bottom: 15px;">Compute Optimization</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span class="stage-item">AIGUR</span>
+                                <span class="stage-item">DISCURO</span>
+                                <span class="stage-item">OctoML</span>
+                                <span class="stage-item">Anyscale</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; padding: 40px; background: rgba(0, 217, 255, 0.05); border-radius: 20px; border: 1px solid rgba(0, 217, 255, 0.2);">
+                    <h3 style="font-size: 28px; color: var(--secondary); margin-bottom: 20px;">💡 Key Enterprise Challenges</h3>
+                    <ul style="color: var(--gray); line-height: 2; font-size: 16px; list-style: none; padding: 0;">
+                        <li>✓ <strong style="color: var(--light);">Data Privacy & Security:</strong> Protecting sensitive enterprise data and model intellectual property</li>
+                        <li>✓ <strong style="color: var(--light);">Model Explainability:</strong> Enabling clear audits of how LLMs arrived at outputs for compliance</li>
+                        <li>✓ <strong style="color: var(--light);">Cost Optimization:</strong> Managing compute costs while maintaining performance standards</li>
+                        <li>✓ <strong style="color: var(--light);">Integration Complexity:</strong> Connecting LLMs with existing enterprise systems and workflows</li>
+                        <li>✓ <strong style="color: var(--light);">Performance at Scale:</strong> Ensuring consistent quality across high-volume production workloads</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="font-size: 16px; font-weight: 600; color: var(--secondary);">Author: Susara Jayaweera Patabendige</p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stage-card, .category-card, .consideration-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
